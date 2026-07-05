@@ -3,186 +3,1058 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PflegeKI — Digitale Tools für die Pflege</title>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Inter:wght@300;400;500;600&family=Allura&display=swap" rel="stylesheet">
+<title>PA-Tool — Praxisanleitung Pflege</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 :root{
-  --bg:#080808;--surface:#111;--card:#161616;--border:#242424;
-  --text:#F0EDE8;--muted:#888;--dim:#444;
-  --blue:#4A9EFF;--blue2:#2a6fd4;--blue-dim:rgba(74,158,255,0.08);
-  --green:#3ecf8e;--green-dim:rgba(62,207,142,0.08);
-  --gold:#C8A96E;
+  --bg:#0a0c10;--surface:#12151c;--card:#181c26;--card2:#1e2330;
+  --border:#252d3d;--border2:#2e3a50;
+  --text:#e4e9f5;--muted:#7a8aaa;--dim:#4a5570;
+  --accent:#5b8dee;--accent2:#3d6fd4;--accent-dim:rgba(91,141,238,0.1);
+  --green:#3ecf8e;--green-dim:rgba(62,207,142,0.1);
+  --amber:#f5a623;--amber-dim:rgba(245,166,35,0.1);
+  --red:#f06060;--red-dim:rgba(240,96,96,0.1);
+  --purple:#a78bfa;--purple-dim:rgba(167,139,250,0.1);
 }
-html{scroll-behavior:smooth;}
-body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;min-height:100vh;display:flex;flex-direction:column;}
+html{scroll-behavior:smooth;height:100%;}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-size:15px;line-height:1.6;height:100%;display:flex;flex-direction:column;-webkit-font-smoothing:antialiased;}
 
-/* NAV */
-nav{padding:1.25rem 2.5rem;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--border);}
-.logo{display:inline-flex;align-items:flex-start;gap:0.04em;line-height:1;text-decoration:none;}
-.logo-crea{font-family:'Allura',cursive;font-size:2rem;color:var(--text);line-height:1;}
-.logo-thom{font-family:'Inter',sans-serif;font-weight:300;font-size:0.55rem;letter-spacing:0.42em;color:var(--blue);margin-top:0.58rem;text-transform:uppercase;}
-.nav-back{font-size:0.75rem;color:var(--muted);text-decoration:none;display:flex;align-items:center;gap:0.4rem;transition:color 0.15s;}
-.nav-back:hover{color:var(--text);}
+/* HEADER */
+.header{background:var(--surface);border-bottom:1px solid var(--border);padding:0.85rem 1.5rem;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;gap:1rem;}
+.header-left{display:flex;align-items:center;gap:0.9rem;}
+.back-btn{display:flex;align-items:center;gap:0.4rem;padding:0.5rem 0.9rem;font-size:0.78rem;font-weight:600;color:var(--muted);background:var(--card);border:1px solid var(--border);border-radius:8px;text-decoration:none;font-family:'Inter',sans-serif;transition:all 0.15s;flex-shrink:0;}
+.back-btn:hover{color:var(--text);border-color:var(--accent);}
+.header-icon{width:38px;height:38px;background:linear-gradient(135deg,var(--accent),var(--accent2));border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;}
+.header-title{font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;color:var(--text);}
+.header-sub{font-size:0.65rem;color:var(--muted);letter-spacing:0.04em;}
+.mode-switch{display:flex;background:var(--card);border:1px solid var(--border);border-radius:8px;overflow:hidden;flex-shrink:0;}
+.mode-btn{padding:0.45rem 1.1rem;font-size:0.75rem;font-weight:600;cursor:pointer;border:none;background:none;color:var(--muted);transition:all 0.15s;font-family:'Inter',sans-serif;}
+.mode-btn.active{background:var(--accent);color:#fff;}
 
-/* HERO */
-.hero{flex:1;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:5rem 2rem;position:relative;overflow:hidden;}
-.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%,rgba(74,158,255,0.06),transparent 60%);}
-.hero::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 100%,rgba(62,207,142,0.04),transparent 60%);}
-.hero-inner{position:relative;z-index:1;max-width:800px;}
+/* LAYOUT */
+.app{display:flex;flex:1;overflow:hidden;}
 
-.hero-badge{display:inline-flex;align-items:center;gap:0.5rem;background:rgba(74,158,255,0.08);border:1px solid rgba(74,158,255,0.2);border-radius:20px;padding:0.35rem 1rem;font-size:0.7rem;font-weight:600;color:var(--blue);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:2rem;}
+/* SIDEBAR */
+.sidebar{width:220px;background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;flex-shrink:0;overflow-y:auto;}
+.sidebar-section{padding:0.25rem 0;}
+.sidebar-label{font-size:0.58rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--dim);padding:0.9rem 1.1rem 0.3rem;}
+.nav-item{display:flex;align-items:center;gap:0.6rem;padding:0.5rem 1.1rem;font-size:0.8rem;color:var(--muted);cursor:pointer;border-left:2px solid transparent;transition:all 0.12s;}
+.nav-item:hover{color:var(--text);background:var(--card);}
+.nav-item.active{color:var(--accent);background:var(--accent-dim);border-left-color:var(--accent);font-weight:600;}
+.nav-item .ni{font-size:0.85rem;width:16px;text-align:center;flex-shrink:0;}
+.sidebar-divider{border:none;border-top:1px solid var(--border);margin:0.4rem 0;}
 
-.hero-icon{font-size:3.5rem;margin-bottom:1.5rem;display:block;}
+/* MAIN */
+.main{flex:1;overflow-y:auto;padding:1.75rem 2rem;}
+.view{display:none;}
+.view.active{display:block;}
 
-.hero h1{font-family:'Syne',sans-serif;font-size:clamp(2.5rem,6vw,4.5rem);font-weight:800;line-height:1;letter-spacing:-0.03em;margin-bottom:1.25rem;}
-.hero h1 .blue{color:var(--blue);}
-.hero h1 .green{color:var(--green);}
+/* PAGE HEADER */
+.ph{margin-bottom:1.75rem;}
+.ph-eye{font-size:0.6rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--accent);margin-bottom:0.4rem;display:flex;align-items:center;gap:0.5rem;}
+.ph-eye::before{content:'';width:18px;height:1px;background:var(--accent);}
+.ph-title{font-family:'Syne',sans-serif;font-size:1.6rem;font-weight:800;color:var(--text);margin-bottom:0.3rem;letter-spacing:-0.02em;}
+.ph-desc{font-size:0.82rem;color:var(--muted);line-height:1.7;max-width:680px;}
 
-.hero p{font-size:1rem;color:var(--muted);max-width:520px;margin:0 auto 3.5rem;line-height:1.8;}
+/* CARDS */
+.card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:1.4rem;margin-bottom:1rem;}
+.card-title{font-family:'Syne',sans-serif;font-size:0.88rem;font-weight:700;color:var(--text);margin-bottom:0.75rem;display:flex;align-items:center;gap:0.5rem;}
 
-/* TOOL CARDS */
-.tool-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;width:100%;max-width:780px;margin:0 auto;}
+/* INFOBOX */
+.infobox{background:var(--accent-dim);border:1px solid rgba(91,141,238,0.2);border-radius:8px;padding:0.9rem 1.1rem;margin-bottom:1rem;font-size:0.79rem;color:var(--muted);line-height:1.65;}
+.infobox strong{color:var(--accent);}
+.infobox-amber{background:var(--amber-dim);border-color:rgba(245,166,35,0.2);}
+.infobox-amber strong{color:var(--amber);}
+.infobox-green{background:var(--green-dim);border-color:rgba(62,207,142,0.2);}
+.infobox-green strong{color:var(--green);}
 
-.tool-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:2.5rem 2rem;text-decoration:none;color:var(--text);display:flex;flex-direction:column;gap:1rem;transition:all 0.2s;position:relative;overflow:hidden;text-align:left;}
-.tool-card::before{content:'';position:absolute;inset:0;opacity:0;transition:opacity 0.2s;}
-.tool-card:hover{transform:translateY(-4px);}
-.tool-card:hover::before{opacity:1;}
+/* FORM */
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:0.7rem;margin-bottom:0.75rem;}
+.form-full{grid-column:1/-1;}
+.form-group{display:flex;flex-direction:column;gap:0.25rem;}
+.form-label{font-size:0.62rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--dim);}
+.form-input,.form-textarea{background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:0.55rem 0.8rem;font-family:'Inter',sans-serif;font-size:0.8rem;color:var(--text);outline:none;transition:border-color 0.15s;}
+.form-input:focus,.form-textarea:focus{border-color:var(--accent);}
+.form-input::placeholder,.form-textarea::placeholder{color:var(--dim);}
+.form-textarea{min-height:75px;resize:vertical;}
 
-.tool-card-ki::before{background:radial-gradient(ellipse at top left,rgba(74,158,255,0.08),transparent 60%);}
-.tool-card-ki:hover{border-color:rgba(74,158,255,0.4);box-shadow:0 20px 60px rgba(74,158,255,0.1);}
+/* CHECKLIST */
+.checklist{list-style:none;display:flex;flex-direction:column;gap:0.45rem;}
+.checklist li{display:flex;align-items:flex-start;gap:0.6rem;font-size:0.8rem;color:var(--muted);line-height:1.5;}
+.checklist li input[type=checkbox]{margin-top:0.15rem;accent-color:var(--accent);flex-shrink:0;width:14px;height:14px;cursor:pointer;}
+.checklist li label{cursor:pointer;}
+.checklist li.done label{color:var(--dim);text-decoration:line-through;}
 
-.tool-card-pa::before{background:radial-gradient(ellipse at top left,rgba(62,207,142,0.08),transparent 60%);}
-.tool-card-pa:hover{border-color:rgba(62,207,142,0.4);box-shadow:0 20px 60px rgba(62,207,142,0.1);}
+/* BEWERTUNG */
+.bew-item{margin-bottom:1.1rem;}
+.bew-label{font-size:0.8rem;color:var(--muted);margin-bottom:0.35rem;}
+.bew-skala{display:flex;gap:0.35rem;}
+.bew-btn{flex:1;padding:0.38rem;border:1px solid var(--border);border-radius:5px;background:var(--bg);color:var(--muted);font-size:0.72rem;font-weight:600;cursor:pointer;text-align:center;transition:all 0.12s;font-family:'Inter',sans-serif;}
+.bew-btn:hover{border-color:var(--accent);color:var(--accent);}
+.bew-btn.s1{background:var(--red-dim);border-color:var(--red);color:var(--red);}
+.bew-btn.s2{background:rgba(240,130,60,0.1);border-color:#f07040;color:#f07040;}
+.bew-btn.s3{background:rgba(240,200,60,0.1);border-color:#e8c030;color:#e8c030;}
+.bew-btn.s4{background:rgba(100,200,100,0.1);border-color:#60c070;color:#60c070;}
+.bew-btn.s5{background:var(--green-dim);border-color:var(--green);color:var(--green);}
+.bew-desc{display:flex;justify-content:space-between;font-size:0.6rem;color:var(--dim);margin-top:0.2rem;}
 
-.tool-card-icon{font-size:2.5rem;margin-bottom:0.5rem;}
-.tool-card-badge{display:inline-block;font-size:0.6rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;padding:0.2rem 0.6rem;border-radius:4px;margin-bottom:0.25rem;}
-.badge-ki{background:var(--blue-dim);color:var(--blue);}
-.badge-pa{background:var(--green-dim);color:var(--green);}
-.badge-new{background:rgba(200,169,110,0.1);color:var(--gold);}
+/* TABLE */
+.tbl{width:100%;border-collapse:collapse;font-size:0.78rem;}
+.tbl th{text-align:left;padding:0.55rem 0.9rem;font-size:0.6rem;font-weight:700;letter-spacing:0.09em;text-transform:uppercase;color:var(--dim);border-bottom:1px solid var(--border);}
+.tbl td{padding:0.65rem 0.9rem;border-bottom:1px solid var(--border);color:var(--muted);vertical-align:top;line-height:1.55;}
+.tbl tr:last-child td{border-bottom:none;}
+.tbl tr:hover td{background:var(--surface);}
+.tbl td:first-child{color:var(--text);font-weight:500;white-space:nowrap;}
 
-.tool-card-title{font-family:'Syne',sans-serif;font-size:1.4rem;font-weight:800;letter-spacing:-0.02em;}
-.tool-card-desc{font-size:0.82rem;color:var(--muted);line-height:1.7;flex:1;}
+/* TAGS */
+.tag{display:inline-block;font-size:0.58rem;font-weight:700;letter-spacing:0.06em;padding:0.15rem 0.5rem;border-radius:4px;text-transform:uppercase;}
+.tag-blue{background:var(--accent-dim);color:var(--accent);}
+.tag-amber{background:var(--amber-dim);color:var(--amber);}
+.tag-green{background:var(--green-dim);color:var(--green);}
+.tag-purple{background:var(--purple-dim);color:var(--purple);}
 
-.tool-card-features{list-style:none;display:flex;flex-direction:column;gap:0.4rem;margin-top:0.5rem;}
-.tool-card-features li{font-size:0.75rem;color:var(--muted);display:flex;gap:0.5rem;align-items:center;}
-.tool-card-features li .dot{width:5px;height:5px;border-radius:50%;flex-shrink:0;}
-.dot-blue{background:var(--blue);}
-.dot-green{background:var(--green);}
+/* BUTTONS */
+.btn{display:inline-flex;align-items:center;gap:0.4rem;padding:0.5rem 1rem;border-radius:6px;font-family:'Inter',sans-serif;font-size:0.76rem;font-weight:600;cursor:pointer;border:none;transition:all 0.12s;text-decoration:none;}
+.btn-primary{background:var(--accent);color:#fff;}
+.btn-primary:hover{background:var(--accent2);}
+.btn-ghost{background:var(--card2);border:1px solid var(--border);color:var(--muted);}
+.btn-ghost:hover{color:var(--text);border-color:var(--border2);}
+.btn-green{background:var(--green);color:#0a0c10;}
+.btn-row{display:flex;gap:0.5rem;flex-wrap:wrap;margin-top:1rem;}
 
-.tool-card-btn{display:flex;align-items:center;justify-content:space-between;padding:0.75rem 1rem;border-radius:8px;font-size:0.8rem;font-weight:700;margin-top:1rem;transition:all 0.15s;}
-.btn-ki{background:var(--blue);color:#000;}
-.btn-ki:hover{opacity:0.85;}
-.btn-pa{background:var(--green);color:#000;}
-.btn-pa:hover{opacity:0.85;}
+/* ACCORDION */
+.accordion{background:var(--surface);border:1px solid var(--border);border-radius:8px;margin-bottom:0.5rem;overflow:hidden;}
+.accordion-header{padding:0.85rem 1.1rem;cursor:pointer;display:flex;justify-content:space-between;align-items:center;transition:background 0.12s;}
+.accordion-header:hover{background:var(--card);}
+.accordion-title{font-size:0.84rem;font-weight:600;color:var(--text);}
+.accordion-chevron{color:var(--dim);font-size:0.65rem;transition:transform 0.2s;}
+.accordion.open .accordion-chevron{transform:rotate(180deg);}
+.accordion-body{display:none;padding:1.1rem;border-top:1px solid var(--border);}
+.accordion.open .accordion-body{display:block;}
 
-/* DIVIDER */
-.divider-text{display:flex;align-items:center;gap:1rem;color:var(--dim);font-size:0.7rem;letter-spacing:0.1em;text-transform:uppercase;margin:2rem 0;}
-.divider-text::before,.divider-text::after{content:'';flex:1;height:1px;background:var(--border);}
+/* KI CHAT */
+.ki-chat{display:flex;flex-direction:column;gap:0;background:var(--card);border:1px solid var(--border);border-radius:10px;overflow:hidden;}
+.ki-chat-header{padding:0.9rem 1.1rem;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:0.6rem;}
+.ki-chat-icon{width:28px;height:28px;background:linear-gradient(135deg,var(--accent),var(--accent2));border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:0.85rem;}
+.ki-chat-title{font-size:0.82rem;font-weight:600;color:var(--text);}
+.ki-chat-sub{font-size:0.65rem;color:var(--muted);}
+.ki-messages{min-height:220px;max-height:420px;overflow-y:auto;padding:1rem;display:flex;flex-direction:column;gap:0.75rem;}
+.ki-msg{display:flex;gap:0.6rem;align-items:flex-start;}
+.ki-msg-avatar{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.75rem;flex-shrink:0;margin-top:0.1rem;}
+.ki-msg-avatar.ai{background:linear-gradient(135deg,var(--accent),var(--accent2));}
+.ki-msg-avatar.user{background:var(--card2);border:1px solid var(--border);}
+.ki-msg-bubble{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:0.65rem 0.9rem;font-size:0.8rem;color:var(--muted);line-height:1.65;flex:1;}
+.ki-msg-bubble.user-bubble{background:var(--accent-dim);border-color:rgba(91,141,238,0.2);color:var(--text);}
+.ki-msg-bubble.ai-bubble{color:var(--text);}
+.ki-input-area{border-top:1px solid var(--border);padding:0.75rem;display:flex;gap:0.5rem;align-items:flex-end;}
+.ki-input{flex:1;background:var(--bg);border:1px solid var(--border);border-radius:7px;padding:0.6rem 0.8rem;font-family:'Inter',sans-serif;font-size:0.8rem;color:var(--text);outline:none;resize:none;min-height:38px;max-height:100px;transition:border-color 0.15s;line-height:1.5;}
+.ki-input:focus{border-color:var(--accent);}
+.ki-input::placeholder{color:var(--dim);}
+.ki-send{width:36px;height:36px;background:var(--accent);border:none;border-radius:7px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background 0.15s;}
+.ki-send:hover{background:var(--accent2);}
+.ki-send svg{width:14px;height:14px;fill:#fff;}
+.ki-chips{padding:0.5rem 0.75rem;display:flex;gap:0.4rem;flex-wrap:wrap;border-top:1px solid var(--border);}
+.ki-chip{font-size:0.7rem;padding:0.3rem 0.65rem;background:var(--card2);border:1px solid var(--border);border-radius:20px;color:var(--muted);cursor:pointer;transition:all 0.12s;}
+.ki-chip:hover{border-color:var(--accent);color:var(--accent);}
+.ki-loading{display:flex;gap:0.3rem;align-items:center;padding:0.5rem;}
+.ki-dot{width:6px;height:6px;background:var(--accent);border-radius:50%;animation:bounce 1.2s infinite;}
+.ki-dot:nth-child(2){animation-delay:0.2s;}
+.ki-dot:nth-child(3){animation-delay:0.4s;}
+@keyframes bounce{0%,60%,100%{transform:translateY(0);}30%{transform:translateY(-6px);}}
 
-/* INFO ROW */
-.info-row{display:flex;gap:2.5rem;justify-content:center;flex-wrap:wrap;margin-top:3rem;}
-.info-item{display:flex;align-items:center;gap:0.5rem;font-size:0.75rem;color:var(--muted);}
-.info-item .icon{font-size:0.9rem;}
+/* SEARCH */
+.search-wrap{position:relative;margin-bottom:1rem;}
+.search-input{width:100%;background:var(--card);border:1px solid var(--border);border-radius:8px;padding:0.65rem 0.9rem 0.65rem 2.4rem;font-family:'Inter',sans-serif;font-size:0.82rem;color:var(--text);outline:none;transition:border-color 0.15s;}
+.search-input:focus{border-color:var(--accent);}
+.search-input::placeholder{color:var(--dim);}
+.search-icon{position:absolute;left:0.8rem;top:50%;transform:translateY(-50%);color:var(--dim);font-size:0.9rem;pointer-events:none;}
+.search-clear{position:absolute;right:0.8rem;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--dim);cursor:pointer;font-size:0.9rem;padding:0;line-height:1;}
+.search-clear:hover{color:var(--text);}
+.filter-row{display:flex;gap:0.4rem;flex-wrap:wrap;margin-bottom:1rem;}
+.filter-btn{font-size:0.68rem;font-weight:600;padding:0.3rem 0.7rem;border-radius:20px;border:1px solid var(--border);background:none;color:var(--muted);cursor:pointer;transition:all 0.12s;font-family:'Inter',sans-serif;}
+.filter-btn:hover,.filter-btn.active{border-color:var(--accent);color:var(--accent);background:var(--accent-dim);}
+.search-count{font-size:0.7rem;color:var(--dim);margin-bottom:0.75rem;}
+.lex-item{background:var(--card);border:1px solid var(--border);border-radius:8px;margin-bottom:0.5rem;overflow:hidden;}
+.lex-header{padding:0.8rem 1rem;cursor:pointer;display:flex;justify-content:space-between;align-items:center;transition:background 0.12s;}
+.lex-header:hover{background:var(--card2);}
+.lex-title{font-size:0.84rem;font-weight:600;color:var(--text);display:flex;align-items:center;gap:0.5rem;}
+.lex-body{display:none;padding:1rem;border-top:1px solid var(--border);}
+.lex-item.open .lex-body{display:block;}
+.lex-def{font-size:0.8rem;color:var(--muted);margin-bottom:0.5rem;line-height:1.65;}
+.lex-row{display:grid;grid-template-columns:1fr 1fr;gap:0.5rem;margin-top:0.5rem;}
+.lex-field{background:var(--surface);border-radius:6px;padding:0.5rem 0.75rem;}
+.lex-field-label{font-size:0.58rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--dim);margin-bottom:0.2rem;}
+.lex-field-val{font-size:0.76rem;color:var(--muted);}
+.lex-tip{background:var(--amber-dim);border-radius:6px;padding:0.5rem 0.75rem;margin-top:0.5rem;}
+.lex-tip-label{font-size:0.58rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--amber);margin-bottom:0.2rem;}
+.lex-tip-val{font-size:0.76rem;color:var(--muted);}
+.no-results{text-align:center;padding:2rem;color:var(--dim);font-size:0.82rem;}
 
-/* FOOTER */
-footer{border-top:1px solid var(--border);padding:1.5rem 2.5rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;}
-.footer-copy{font-size:0.7rem;color:var(--dim);}
-.footer-links{display:flex;gap:1.5rem;}
-.footer-links a{font-size:0.7rem;color:var(--dim);text-decoration:none;transition:color 0.15s;}
-.footer-links a:hover{color:var(--muted);}
+/* KOMPETENZ GRID */
+.komp-grid{display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;}
+.komp-card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:1.1rem;}
+.komp-num{font-size:0.58rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--accent);margin-bottom:0.35rem;}
+.komp-title{font-size:0.85rem;font-weight:700;color:var(--text);margin-bottom:0.5rem;}
+.komp-items{list-style:none;display:flex;flex-direction:column;gap:0.3rem;}
+.komp-items li{font-size:0.74rem;color:var(--muted);display:flex;gap:0.4rem;}
+.komp-items li::before{content:'·';color:var(--accent);}
 
-@media(max-width:640px){
-  nav{padding:1rem 1.25rem;}
-  .hero{padding:3rem 1.25rem;}
-  .tool-grid{grid-template-columns:1fr;}
-  footer{flex-direction:column;text-align:center;}
+/* PRINT */
+@media print{
+  .header,.sidebar,.ki-chat,.btn-row,.filter-row,.search-wrap{display:none!important;}
+  .app{display:block;}
+  .main{padding:0;}
+  body,html{background:#fff;color:#000;}
+  .card,.lex-item,.accordion{border:1px solid #ccc;background:#fff;}
+  .form-input,.form-textarea{border:1px solid #ccc;color:#000;background:#fff;}
+}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+  .sidebar{display:none;}
+  .main{padding:1rem;}
+  .form-grid,.komp-grid,.lex-row{grid-template-columns:1fr;}
 }
 </style>
 </head>
 <body>
 
-<nav>
-  <a href="https://creathom.de" class="logo">
-    <span class="logo-crea">Crea</span>
-    <span class="logo-thom">Thom</span>
-  </a>
-  <a href="https://creathom.de" class="nav-back">← Zurück zu CreaThom</a>
-</nav>
-
-<section class="hero">
-  <div class="hero-inner">
-    <div class="hero-badge">🩺 Digitale Tools für die Pflege</div>
-    <h1>Pflege<span class="blue">KI</span><br><span class="green">Tools.</span></h1>
-    <p>KI-gestützte Werkzeuge für Pflegepersonal, Praxisanleiter und Pflegeschüler — entwickelt von einem praktizierenden Wohnbereichsleiter.</p>
-
-    <div style="margin:0 auto 3rem;max-width:860px;border-radius:16px;overflow:hidden;border:1px solid var(--border);box-shadow:0 30px 80px rgba(74,158,255,0.12);">
-      <img src="pflegeki-hero.png" alt="Praxisanleiter und Pflegeschüler mit KI-Tools" style="width:100%;display:block;">
+<div class="header">
+  <div class="header-left">
+    <a href="https://pflegeki.creathom.de" class="back-btn">← Zurück</a>
+    <div class="header-icon">🩺</div>
+    <div>
+      <div class="header-title">PA-Tool Pro</div>
+      <div class="header-sub">Praxisanleitung Pflege · PflBG 2020 & Altenpflege</div>
     </div>
+  </div>
+  <div class="mode-switch">
+    <button class="mode-btn active" onclick="setMode('pa',this)">🧑‍🏫 Praxisanleiter</button>
+    <button class="mode-btn" onclick="setMode('schueler',this)">🎓 Schüler</button>
+  </div>
+</div>
 
-    <div class="tool-grid">
+<div class="app">
 
-      <!-- PFLEGEKI -->
-      <a href="/pflegeki/" class="tool-card tool-card-ki">
-        <div>
-          <div class="tool-card-icon">🤖</div>
-          <div class="tool-card-badge badge-ki">KI-Assistent</div>
-          <div class="tool-card-title">PflegeKI</div>
-        </div>
-        <div class="tool-card-desc">Dein persönlicher KI-Lernassistent für die Pflegeausbildung. Fachbegriffe, Assessments, Pflegeberichte — einfach fragen.</div>
-        <ul class="tool-card-features">
-          <li><span class="dot dot-blue"></span>Freies Lernen mit KI</li>
-          <li><span class="dot dot-blue"></span>SIS & Themenfelder</li>
-          <li><span class="dot dot-blue"></span>Assessments üben</li>
-          <li><span class="dot dot-blue"></span>Prüfungsvorbereitung</li>
-        </ul>
-        <div class="tool-card-btn btn-ki">
-          PflegeKI öffnen <span>→</span>
-        </div>
-      </a>
+  <!-- SIDEBAR -->
+  <div class="sidebar" id="sidebar">
+    <div id="nav-pa">
+      <div class="sidebar-label">KI-Assistent</div>
+      <div class="nav-item active" onclick="showView('ki-pa',this)"><span class="ni">🤖</span> KI-Gesprächsassistent</div>
+      <hr class="sidebar-divider">
+      <div class="sidebar-label">Gesprächsführung</div>
+      <div class="nav-item" onclick="showView('vorgespraech',this)"><span class="ni">💬</span> Vorgespräch</div>
+      <div class="nav-item" onclick="showView('zwischengespraech',this)"><span class="ni">📊</span> Zwischengespräch</div>
+      <div class="nav-item" onclick="showView('abschlussgespraech',this)"><span class="ni">✅</span> Abschlussgespräch</div>
+      <hr class="sidebar-divider">
+      <div class="sidebar-label">Bewertung</div>
+      <div class="nav-item" onclick="showView('bewertung',this)"><span class="ni">📋</span> Bewertungsbogen</div>
+      <div class="nav-item" onclick="showView('kompetenzen',this)"><span class="ni">🎯</span> Kompetenzbereiche</div>
+      <hr class="sidebar-divider">
+      <div class="sidebar-label">Nachschlagen</div>
+      <div class="nav-item" onclick="showView('lexikon',this)"><span class="ni">🔤</span> Fachbegriffe & Lexikon</div>
+      <div class="nav-item" onclick="showView('ausbildungsziele',this)"><span class="ni">📖</span> Ausbildungsziele</div>
+      <div class="nav-item" onclick="showView('rechtliches',this)"><span class="ni">⚖️</span> Rechtliches</div>
+    </div>
+    <div id="nav-schueler" style="display:none;">
+      <div class="sidebar-label">KI-Assistent</div>
+      <div class="nav-item active" onclick="showView('ki-schueler',this)"><span class="ni">🤖</span> KI-Lernassistent</div>
+      <hr class="sidebar-divider">
+      <div class="sidebar-label">Meine Ausbildung</div>
+      <div class="nav-item" onclick="showView('gespraechsvorbereitung',this)"><span class="ni">📝</span> Gesprächsvorbereitung</div>
+      <div class="nav-item" onclick="showView('selbsteinschaetzung',this)"><span class="ni">🎯</span> Selbsteinschätzung</div>
+      <div class="nav-item" onclick="showView('ausbildungsaufbau',this)"><span class="ni">📅</span> Ausbildungsaufbau</div>
+      <div class="nav-item" onclick="showView('rechte',this)"><span class="ni">⚖️</span> Rechte & Pflichten</div>
+      <hr class="sidebar-divider">
+      <div class="sidebar-label">Nachschlagen</div>
+      <div class="nav-item" onclick="showView('lexikon',this)"><span class="ni">🔤</span> Fachbegriffe & Lexikon</div>
+      <div class="nav-item" onclick="showView('assessments',this)"><span class="ni">📊</span> Assessments</div>
+      <div class="nav-item" onclick="showView('abkuerzungen',this)"><span class="ni">🔡</span> Abkürzungen</div>
+      <div class="nav-item" onclick="showView('medikamente',this)"><span class="ni">💊</span> Medikamente</div>
+    </div>
+  </div>
 
-      <!-- PA-TOOL -->
-      <a href="/praxisanleiter/" class="tool-card tool-card-pa">
-        <div>
-          <div class="tool-card-icon">🧑‍🏫</div>
-          <div style="display:flex;gap:0.4rem;flex-wrap:wrap;">
-            <div class="tool-card-badge badge-pa">Praxisanleitung</div>
-            <div class="tool-card-badge badge-new">NEU</div>
+  <!-- MAIN -->
+  <div class="main" id="main-content">
+
+    <!-- ══ PA: KI-ASSISTENT ══ -->
+    <div class="view active" id="view-ki-pa">
+      <div class="ph">
+        <div class="ph-eye">KI-Assistent</div>
+        <div class="ph-title">Gesprächsassistent</div>
+        <div class="ph-desc">Ich helfe dir bei der Vorbereitung und Durchführung von Ausbildungsgesprächen — mit konkreten Fragen, Bewertungshinweisen und Formulierungshilfen nach PflBG.</div>
+      </div>
+      <div class="ki-chat" id="chat-pa">
+        <div class="ki-chat-header">
+          <div class="ki-chat-icon">🤖</div>
+          <div>
+            <div class="ki-chat-title">PA-Assistent</div>
+            <div class="ki-chat-sub">Powered by Claude AI · PflBG 2020</div>
           </div>
-          <div class="tool-card-title">PA-Tool Pro</div>
         </div>
-        <div class="tool-card-desc">KI-Assistent für Praxisanleiter — Gesprächsführung, Formulierungshilfen, Bewertungsbögen und Schüler-Lernassistent.</div>
-        <ul class="tool-card-features">
-          <li><span class="dot dot-green"></span>KI-Formulierungsassistent</li>
-          <li><span class="dot dot-green"></span>Vor-, Zwischen-, Abschlussgespräch</li>
-          <li><span class="dot dot-green"></span>Bewertungsbogen druckbar</li>
-          <li><span class="dot dot-green"></span>Fachbegriff-Lexikon</li>
+        <div class="ki-messages" id="msgs-pa">
+          <div class="ki-msg">
+            <div class="ki-msg-avatar ai">🤖</div>
+            <div class="ki-msg-bubble ai-bubble">Hallo! Ich bin dein KI-Assistent für die Praxisanleitung. Ich unterstütze dich bei Vor-, Zwischen- und Abschlussgesprächen mit konkreten Fragen, Bewertungshinweisen und Formulierungshilfen nach PflBG 2020.<br><br>Wie kann ich dir helfen? Beschreibe kurz die Situation — z.B. welches Gespräch ansteht und was du über den Schüler weißt.</div>
+          </div>
+        </div>
+        <div class="ki-chips">
+          <span class="ki-chip" onclick="sendChip(this,'pa')">Vorgespräch vorbereiten</span>
+          <span class="ki-chip" onclick="sendChip(this,'pa')">Bewertung formulieren</span>
+          <span class="ki-chip" onclick="sendChip(this,'pa')">Schüler gibt sich zu wenig Mühe</span>
+          <span class="ki-chip" onclick="sendChip(this,'pa')">Abschlussgespräch Tipps</span>
+          <span class="ki-chip" onclick="sendChip(this,'pa')">Kompetenzbereiche erklären</span>
+        </div>
+        <div class="ki-input-area">
+          <textarea class="ki-input" id="input-pa" placeholder="Frage oder Situation beschreiben..." rows="1" onkeydown="handleKey(event,'pa')"></textarea>
+          <button class="ki-send" onclick="sendMsg('pa')"><svg viewBox="0 0 24 24"><path d="M2 21l21-9L2 3v7l15 2-15 2z"/></svg></button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ VORGESPRÄCH ══ -->
+    <div class="view" id="view-vorgespraech">
+      <div class="ph">
+        <div class="ph-eye">Gesprächsführung</div>
+        <div class="ph-title">Vorgespräch</div>
+        <div class="ph-desc">Am Anfang des Einsatzes. Ziel: Kennenlernen, Erwartungen klären, Lernziele vereinbaren.</div>
+      </div>
+      <div class="infobox"><strong>Zeitpunkt:</strong> Spätestens am 1.–2. Einsatztag · <strong>Dauer:</strong> ca. 20–30 Min · <strong>Ort:</strong> Ruhiger Raum ohne Unterbrechungen</div>
+      <div class="card">
+        <div class="card-title">📋 Checkliste</div>
+        <ul class="checklist" id="cl-vor">
+          <li><input type="checkbox" id="v1" onchange="toggleDone(this)"><label for="v1">Vorstellung beider Personen, bisherige Erfahrungen des Schülers erfragen</label></li>
+          <li><input type="checkbox" id="v2" onchange="toggleDone(this)"><label for="v2">Einsatzbereich erklären (Team, Besonderheiten, Abläufe)</label></li>
+          <li><input type="checkbox" id="v3" onchange="toggleDone(this)"><label for="v3">Individuelle Lernziele des Schülers besprechen</label></li>
+          <li><input type="checkbox" id="v4" onchange="toggleDone(this)"><label for="v4">Ausbildungsplan und Ausbildungsnachweis besprechen</label></li>
+          <li><input type="checkbox" id="v5" onchange="toggleDone(this)"><label for="v5">Dienstzeiten, Schichtplan, Ansprechpartner klären</label></li>
+          <li><input type="checkbox" id="v6" onchange="toggleDone(this)"><label for="v6">Erwartungen des Schülers abfragen</label></li>
+          <li><input type="checkbox" id="v7" onchange="toggleDone(this)"><label for="v7">Schweigepflicht (§203 StGB) thematisieren</label></li>
+          <li><input type="checkbox" id="v8" onchange="toggleDone(this)"><label for="v8">Termin für Zwischengespräch vereinbaren</label></li>
+          <li><input type="checkbox" id="v9" onchange="toggleDone(this)"><label for="v9">Unterschriften auf Vorgespräch-Protokoll</label></li>
         </ul>
-        <div class="tool-card-btn btn-pa">
-          PA-Tool öffnen <span>→</span>
+      </div>
+      <div class="card">
+        <div class="card-title">📝 Protokoll</div>
+        <div class="form-grid">
+          <div class="form-group"><label class="form-label">Schüler/in</label><input class="form-input" placeholder="Name"></div>
+          <div class="form-group"><label class="form-label">Ausbildungsjahr</label><input class="form-input" placeholder="1. / 2. / 3. Jahr"></div>
+          <div class="form-group"><label class="form-label">Praxisanleiter/in</label><input class="form-input" placeholder="Name"></div>
+          <div class="form-group"><label class="form-label">Datum</label><input class="form-input" type="date"></div>
+          <div class="form-group"><label class="form-label">Einsatzbereich</label><input class="form-input" placeholder="z.B. Wohnbereich 2"></div>
+          <div class="form-group"><label class="form-label">Einsatzzeitraum</label><input class="form-input" placeholder="von – bis"></div>
+          <div class="form-group form-full"><label class="form-label">Individuelle Lernziele des Schülers</label><textarea class="form-textarea" placeholder="Was möchte der/die Schüler/in in diesem Einsatz lernen?"></textarea></div>
+          <div class="form-group form-full"><label class="form-label">Vereinbarte Schwerpunkte im Einsatz</label><textarea class="form-textarea" placeholder="Was wird besonders geübt / begleitet?"></textarea></div>
+          <div class="form-group form-full"><label class="form-label">Besondere Hinweise / Vorkenntnisse</label><textarea class="form-textarea"></textarea></div>
+          <div class="form-group"><label class="form-label">Termin Zwischengespräch</label><input class="form-input" type="date"></div>
+          <div class="form-group"><label class="form-label">Termin Abschlussgespräch</label><input class="form-input" type="date"></div>
         </div>
-      </a>
-
+        <div class="btn-row"><button class="btn btn-primary" onclick="window.print()">🖨️ Drucken / PDF</button><button class="btn btn-ghost" onclick="clearForm(this)">🗑️ Leeren</button></div>
+      </div>
     </div>
 
-    <div class="info-row">
-      <div class="info-item"><span class="icon">🔒</span> Sicher & DSGVO-konform</div>
-      <div class="info-item"><span class="icon">⚡</span> Kein Download nötig</div>
-      <div class="info-item"><span class="icon">🩺</span> Von Pflegeprofis entwickelt</div>
-      <div class="info-item"><span class="icon">📱</span> Auch mobil nutzbar</div>
+    <!-- ══ ZWISCHENGESPRÄCH ══ -->
+    <div class="view" id="view-zwischengespraech">
+      <div class="ph">
+        <div class="ph-eye">Gesprächsführung</div>
+        <div class="ph-title">Zwischengespräch</div>
+        <div class="ph-desc">Zur Mitte des Einsatzes. Ziel: Zwischenstand reflektieren, Kurs korrigieren, Lernfortschritt besprechen.</div>
+      </div>
+      <div class="infobox"><strong>Zeitpunkt:</strong> Mitte des Einsatzes · <strong>Tipp:</strong> Schüler soll sich vorher selbst einschätzen und vorbereiten</div>
+      <div class="card">
+        <div class="card-title">📋 Checkliste</div>
+        <ul class="checklist">
+          <li><input type="checkbox" id="z1" onchange="toggleDone(this)"><label for="z1">Wie fühlt sich der Schüler im Einsatz?</label></li>
+          <li><input type="checkbox" id="z2" onchange="toggleDone(this)"><label for="z2">Rückblick auf vereinbarte Lernziele — was wurde erreicht?</label></li>
+          <li><input type="checkbox" id="z3" onchange="toggleDone(this)"><label for="z3">Selbsteinschätzung des Schülers abfragen</label></li>
+          <li><input type="checkbox" id="z4" onchange="toggleDone(this)"><label for="z4">Fremdeinschätzung durch PA mitteilen</label></li>
+          <li><input type="checkbox" id="z5" onchange="toggleDone(this)"><label for="z5">Stärken konkret benennen und würdigen</label></li>
+          <li><input type="checkbox" id="z6" onchange="toggleDone(this)"><label for="z6">Entwicklungsfelder konstruktiv besprechen</label></li>
+          <li><input type="checkbox" id="z7" onchange="toggleDone(this)"><label for="z7">Lernziele für zweite Hälfte anpassen oder ergänzen</label></li>
+          <li><input type="checkbox" id="z8" onchange="toggleDone(this)"><label for="z8">Fragen und Anliegen des Schülers klären</label></li>
+          <li><input type="checkbox" id="z9" onchange="toggleDone(this)"><label for="z9">Unterschriften auf Zwischengesprächs-Protokoll</label></li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="card-title">📝 Protokoll</div>
+        <div class="form-grid">
+          <div class="form-group"><label class="form-label">Schüler/in</label><input class="form-input" placeholder="Name"></div>
+          <div class="form-group"><label class="form-label">Datum</label><input class="form-input" type="date"></div>
+          <div class="form-group form-full"><label class="form-label">Selbsteinschätzung Schüler/in</label><textarea class="form-textarea" placeholder="Was hat gut funktioniert? Wo sieht der/die Schüler/in noch Bedarf?"></textarea></div>
+          <div class="form-group form-full"><label class="form-label">Stärken (Fremdeinschätzung PA)</label><textarea class="form-textarea" placeholder="Konkrete Beobachtungen was gut läuft..."></textarea></div>
+          <div class="form-group form-full"><label class="form-label">Entwicklungsfelder</label><textarea class="form-textarea" placeholder="Was soll in der zweiten Hälfte gezielt geübt werden?"></textarea></div>
+          <div class="form-group form-full"><label class="form-label">Neue / angepasste Lernziele</label><textarea class="form-textarea"></textarea></div>
+          <div class="form-group form-full"><label class="form-label">Sonstiges / Anliegen des Schülers</label><textarea class="form-textarea"></textarea></div>
+        </div>
+        <div class="btn-row"><button class="btn btn-primary" onclick="window.print()">🖨️ Drucken / PDF</button><button class="btn btn-ghost" onclick="clearForm(this)">🗑️ Leeren</button></div>
+      </div>
     </div>
 
-  </div>
-</section>
+    <!-- ══ ABSCHLUSSGESPRÄCH ══ -->
+    <div class="view" id="view-abschlussgespraech">
+      <div class="ph">
+        <div class="ph-eye">Gesprächsführung</div>
+        <div class="ph-title">Abschlussgespräch</div>
+        <div class="ph-desc">Am Ende des Einsatzes. Gesamtreflexion, Leistungsbeurteilung, Feedback in beide Richtungen.</div>
+      </div>
+      <div class="infobox"><strong>Zeitpunkt:</strong> Letzter oder vorletzter Einsatztag · <strong>Dauer:</strong> ca. 30–45 Min · <strong>Wichtig:</strong> Beurteilungsbogen vorbereiten</div>
+      <div class="card">
+        <div class="card-title">📋 Checkliste</div>
+        <ul class="checklist">
+          <li><input type="checkbox" id="a1" onchange="toggleDone(this)"><label for="a1">Gesamtrückblick auf den Einsatz</label></li>
+          <li><input type="checkbox" id="a2" onchange="toggleDone(this)"><label for="a2">Lernziele erreicht? (Selbst- und Fremdeinschätzung)</label></li>
+          <li><input type="checkbox" id="a3" onchange="toggleDone(this)"><label for="a3">Leistungsbeurteilung besprechen und begründen</label></li>
+          <li><input type="checkbox" id="a4" onchange="toggleDone(this)"><label for="a4">Stärken konkret würdigen</label></li>
+          <li><input type="checkbox" id="a5" onchange="toggleDone(this)"><label for="a5">Empfehlungen für weitere Entwicklung geben</label></li>
+          <li><input type="checkbox" id="a6" onchange="toggleDone(this)"><label for="a6">Feedback des Schülers an den Einsatz einholen</label></li>
+          <li><input type="checkbox" id="a7" onchange="toggleDone(this)"><label for="a7">Ausbildungsnachweis prüfen und unterschreiben</label></li>
+          <li><input type="checkbox" id="a8" onchange="toggleDone(this)"><label for="a8">Beurteilungsbogen ausfüllen und unterschreiben</label></li>
+          <li><input type="checkbox" id="a9" onchange="toggleDone(this)"><label for="a9">Schüler über nächste Schritte informieren</label></li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="card-title">📝 Protokoll</div>
+        <div class="form-grid">
+          <div class="form-group"><label class="form-label">Schüler/in</label><input class="form-input" placeholder="Name"></div>
+          <div class="form-group"><label class="form-label">Datum</label><input class="form-input" type="date"></div>
+          <div class="form-group form-full"><label class="form-label">Zielerreichung — Selbsteinschätzung</label><textarea class="form-textarea"></textarea></div>
+          <div class="form-group form-full"><label class="form-label">Zielerreichung — Einschätzung PA</label><textarea class="form-textarea"></textarea></div>
+          <div class="form-group form-full"><label class="form-label">Besondere Stärken / Leistungen</label><textarea class="form-textarea"></textarea></div>
+          <div class="form-group form-full"><label class="form-label">Empfehlungen für weitere Ausbildung</label><textarea class="form-textarea"></textarea></div>
+          <div class="form-group form-full"><label class="form-label">Feedback des Schülers an den Einsatz</label><textarea class="form-textarea"></textarea></div>
+        </div>
+        <div class="btn-row"><button class="btn btn-primary" onclick="window.print()">🖨️ Drucken / PDF</button><button class="btn btn-ghost" onclick="clearForm(this)">🗑️ Leeren</button></div>
+      </div>
+    </div>
 
-<footer>
-  <div class="footer-copy">© 2025 CreaThom · Ralf Thom · Burgwedel</div>
-  <div class="footer-links">
-    <a href="https://creathom.de">creathom.de</a>
-    <a href="#">Impressum</a>
-    <a href="#">Datenschutz</a>
-  </div>
-</footer>
+    <!-- ══ BEWERTUNG ══ -->
+    <div class="view" id="view-bewertung">
+      <div class="ph">
+        <div class="ph-eye">Bewertung</div>
+        <div class="ph-title">Bewertungsbogen</div>
+        <div class="ph-desc">Strukturierte Leistungseinschätzung nach PflBG-Kompetenzbereichen. Skala 1–5.</div>
+      </div>
+      <div class="card">
+        <div class="form-grid">
+          <div class="form-group"><label class="form-label">Schüler/in</label><input class="form-input" placeholder="Name"></div>
+          <div class="form-group"><label class="form-label">Einsatzzeitraum</label><input class="form-input" placeholder="von – bis"></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">I — Pflegefachliche Kompetenz</div>
+        <div id="bew-I"></div>
+      </div>
+      <div class="card">
+        <div class="card-title">II — Kommunikation & Beratung</div>
+        <div id="bew-II"></div>
+      </div>
+      <div class="card">
+        <div class="card-title">III — Teamarbeit & Interprofessionalität</div>
+        <div id="bew-III"></div>
+      </div>
+      <div class="card">
+        <div class="card-title">IV — Personale Kompetenz</div>
+        <div id="bew-IV"></div>
+      </div>
+      <div class="card">
+        <div class="card-title">Gesamteinschätzung</div>
+        <textarea class="form-textarea" style="width:100%;min-height:100px;" placeholder="Zusammenfassende Bewertung des Einsatzes..."></textarea>
+        <div class="btn-row"><button class="btn btn-primary" onclick="window.print()">🖨️ Drucken / PDF</button></div>
+      </div>
+    </div>
 
+    <!-- ══ KOMPETENZEN ══ -->
+    <div class="view" id="view-kompetenzen">
+      <div class="ph">
+        <div class="ph-eye">Nachschlagen</div>
+        <div class="ph-title">Kompetenzbereiche PflBG</div>
+        <div class="ph-desc">Die fünf Kompetenzbereiche nach Pflegeberufegesetz 2020 — Grundlage für Ausbildung, Prüfung und Beurteilung.</div>
+      </div>
+      <div class="komp-grid">
+        <div class="komp-card"><div class="komp-num">Kompetenzbereich I</div><div class="komp-title">Pflegeprozess & Pflegediagnostik</div><ul class="komp-items"><li>Pflegebedarf erheben und einschätzen</li><li>Pflegeziele SMART formulieren</li><li>Maßnahmen planen, durchführen, evaluieren</li><li>Pflegediagnosen anwenden (z.B. NANDA)</li><li>Pflegedokumentation fachgerecht führen</li><li>SIS und NBA anwenden</li></ul></div>
+        <div class="komp-card"><div class="komp-num">Kompetenzbereich II</div><div class="komp-title">Kommunikation & Beratung</div><ul class="komp-items"><li>Professionell mit Bewohnern kommunizieren</li><li>Angehörige informieren und beraten</li><li>Im interprofessionellen Team kommunizieren</li><li>Übergaben strukturiert gestalten</li><li>Konflikte erkennen und deeskalieren</li><li>Validation und empathische Gesprächsführung</li></ul></div>
+        <div class="komp-card"><div class="komp-num">Kompetenzbereich III</div><div class="komp-title">Intra- & Interprofessionalität</div><ul class="komp-items"><li>Im Pflegeteam kooperieren</li><li>Mit anderen Berufsgruppen zusammenarbeiten</li><li>Aufgaben delegieren und annehmen</li><li>An Fallbesprechungen mitwirken</li><li>Schnittstellen erkennen und nutzen</li></ul></div>
+        <div class="komp-card"><div class="komp-num">Kompetenzbereich IV</div><div class="komp-title">Recht, Ethik & Verantwortung</div><ul class="komp-items"><li>Rechtliche Grundlagen kennen und anwenden</li><li>Patientenrechte und Würde achten</li><li>Ethische Entscheidungen reflektieren</li><li>Schweigepflicht einhalten (§203 StGB)</li><li>Datenschutz beachten (DSGVO)</li></ul></div>
+        <div class="komp-card" style="grid-column:1/-1;"><div class="komp-num">Kompetenzbereich V</div><div class="komp-title">Eigene Gesundheit & Professionalität</div><ul class="komp-items" style="columns:2;gap:2rem;"><li>Selbstreflexion und Selbstfürsorge</li><li>Berufliches Rollenverständnis entwickeln</li><li>Mit Belastungen konstruktiv umgehen</li><li>Hygiene- und Sicherheitsstandards einhalten</li><li>Lebenslanges Lernen als Haltung</li><li>Fehlerkultur und Qualitätsverbesserung</li></ul></div>
+      </div>
+    </div>
+
+    <!-- ══ AUSBILDUNGSZIELE ══ -->
+    <div class="view" id="view-ausbildungsziele">
+      <div class="ph">
+        <div class="ph-eye">Nachschlagen</div>
+        <div class="ph-title">Ausbildungsziele</div>
+        <div class="ph-desc">Vergleich PflBG (2020) und klassisches Altenpflegegesetz (AltPflG).</div>
+      </div>
+      <div class="card">
+        <table class="tbl">
+          <thead><tr><th>Bereich</th><th>Ziel</th><th>Gesetz</th></tr></thead>
+          <tbody>
+            <tr><td>Grundpflege</td><td>Selbständige Durchführung aller grundpflegerischen Maßnahmen</td><td><span class="tag tag-green">Beide</span></td></tr>
+            <tr><td>Behandlungspflege</td><td>Durchführung ärztlich delegierter Maßnahmen</td><td><span class="tag tag-blue">PflBG</span></td></tr>
+            <tr><td>Pflegeprozess</td><td>Eigenständige Planung, Durchführung und Evaluation</td><td><span class="tag tag-blue">PflBG</span></td></tr>
+            <tr><td>Dokumentation</td><td>Fachgerechte Pflegedokumentation nach gesetzlichen Anforderungen</td><td><span class="tag tag-green">Beide</span></td></tr>
+            <tr><td>Kommunikation</td><td>Professioneller Umgang mit Pflegebedürftigen, Angehörigen, Team</td><td><span class="tag tag-green">Beide</span></td></tr>
+            <tr><td>Palliativpflege</td><td>Begleitung Sterbender und Angehöriger</td><td><span class="tag tag-green">Beide</span></td></tr>
+            <tr><td>Prävention</td><td>Dekubitus-, Sturz-, Kontraktur-, Pneumonieprophylaxe</td><td><span class="tag tag-green">Beide</span></td></tr>
+            <tr><td>Demenz</td><td>Umgang mit kognitiv eingeschränkten Menschen, Validation</td><td><span class="tag tag-amber">AltPflG</span></td></tr>
+            <tr><td>Generalistik</td><td>Einsatz in allen Pflegebereichen (Rotation)</td><td><span class="tag tag-blue">PflBG</span></td></tr>
+            <tr><td>Ethik</td><td>Reflexion ethischer Fragen, Patientenverfügung, Vorsorgevollmacht</td><td><span class="tag tag-green">Beide</span></td></tr>
+            <tr><td>Recht</td><td>SGB XI, SGB V, Heimgesetz, Betreuungsrecht kennen</td><td><span class="tag tag-green">Beide</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ══ RECHTLICHES ══ -->
+    <div class="view" id="view-rechtliches">
+      <div class="ph">
+        <div class="ph-eye">Nachschlagen</div>
+        <div class="ph-title">Rechtliche Grundlagen</div>
+        <div class="ph-desc">Die wichtigsten Gesetze und Regelungen für Praxisanleiter.</div>
+      </div>
+      <div class="card">
+        <table class="tbl">
+          <thead><tr><th>Gesetz</th><th>Relevanz für PA</th></tr></thead>
+          <tbody>
+            <tr><td>PflBG 2020</td><td>Generalistischer Ausbildungsrahmen, Ausbildungsziele, Prüfungsstruktur</td></tr>
+            <tr><td>PflAPrV</td><td>Ausbildungs- und Prüfungsverordnung — regelt Praxiseinsätze und Beurteilungen</td></tr>
+            <tr><td>AltPflG</td><td>Gilt noch für Schüler die vor 2020 begonnen haben</td></tr>
+            <tr><td>BBiG</td><td>Berufsbildungsgesetz — Rechte und Pflichten im Ausbildungsverhältnis</td></tr>
+            <tr><td>JArbSchG</td><td>Jugendarbeitsschutzgesetz — besondere Regelungen unter 18 Jahren</td></tr>
+            <tr><td>SGB XI</td><td>Soziale Pflegeversicherung — Grundlage für Leistungen in der Langzeitpflege</td></tr>
+            <tr><td>DSGVO / BDSG</td><td>Datenschutz — gilt auch für Ausbildungsdokumentationen</td></tr>
+            <tr><td>§203 StGB</td><td>Schweigepflicht — gilt für Auszubildende, muss aktiv thematisiert werden</td></tr>
+            <tr><td>BtMG</td><td>Betäubungsmittelgesetz — besondere Dokumentationspflichten für Morphin etc.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="infobox" style="margin-top:1rem;"><strong>Hinweis:</strong> Diese Übersicht ersetzt keine Rechtsberatung. Aktuelle Fassungen immer über gesetze-im-internet.de prüfen.</div>
+    </div>
+
+    <!-- ══ SCHÜLER: KI-ASSISTENT ══ -->
+    <div class="view" id="view-ki-schueler">
+      <div class="ph">
+        <div class="ph-eye">KI-Assistent</div>
+        <div class="ph-title">Lernassistent</div>
+        <div class="ph-desc">Ich helfe dir bei der Vorbereitung auf Ausbildungsgespräche, erkläre Fachbegriffe und beantworte Fragen zu deiner Pflegeausbildung.</div>
+      </div>
+      <div class="ki-chat" id="chat-schueler">
+        <div class="ki-chat-header">
+          <div class="ki-chat-icon">🎓</div>
+          <div>
+            <div class="ki-chat-title">Schüler-Assistent</div>
+            <div class="ki-chat-sub">Powered by Claude AI · Für Pflegeschüler</div>
+          </div>
+        </div>
+        <div class="ki-messages" id="msgs-schueler">
+          <div class="ki-msg">
+            <div class="ki-msg-avatar ai">🤖</div>
+            <div class="ki-msg-bubble ai-bubble">Hallo! Ich bin dein persönlicher Lernassistent für die Pflegeausbildung. Ich erkläre dir Fachbegriffe verständlich, helfe dir dich auf Gespräche vorzubereiten und beantworte Fragen zu deiner Ausbildung nach PflBG.<br><br>Was möchtest du wissen?</div>
+          </div>
+        </div>
+        <div class="ki-chips">
+          <span class="ki-chip" onclick="sendChip(this,'schueler')">Vorgespräch vorbereiten</span>
+          <span class="ki-chip" onclick="sendChip(this,'schueler')">Was wird beim Abschlussgespräch bewertet?</span>
+          <span class="ki-chip" onclick="sendChip(this,'schueler')">Dekubitus erklären</span>
+          <span class="ki-chip" onclick="sendChip(this,'schueler')">Was ist die Braden-Skala?</span>
+          <span class="ki-chip" onclick="sendChip(this,'schueler')">Meine Rechte als Azubi</span>
+        </div>
+        <div class="ki-input-area">
+          <textarea class="ki-input" id="input-schueler" placeholder="Frage stellen..." rows="1" onkeydown="handleKey(event,'schueler')"></textarea>
+          <button class="ki-send" onclick="sendMsg('schueler')"><svg viewBox="0 0 24 24"><path d="M2 21l21-9L2 3v7l15 2-15 2z"/></svg></button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ GESPRÄCHSVORBEREITUNG ══ -->
+    <div class="view" id="view-gespraechsvorbereitung">
+      <div class="ph">
+        <div class="ph-eye">Meine Ausbildung</div>
+        <div class="ph-title">Gesprächsvorbereitung</div>
+        <div class="ph-desc">Bereite dich strukturiert auf deine Ausbildungsgespräche vor.</div>
+      </div>
+      <div class="card">
+        <div class="card-title">💬 Fragen zur Selbstreflexion</div>
+        <ul class="checklist">
+          <li><input type="checkbox" id="sv1" onchange="toggleDone(this)"><label for="sv1">Was habe ich in diesem Einsatz gelernt?</label></li>
+          <li><input type="checkbox" id="sv2" onchange="toggleDone(this)"><label for="sv2">Welche Situationen haben mich besonders gefordert?</label></li>
+          <li><input type="checkbox" id="sv3" onchange="toggleDone(this)"><label for="sv3">Was läuft gut — worauf bin ich stolz?</label></li>
+          <li><input type="checkbox" id="sv4" onchange="toggleDone(this)"><label for="sv4">Was möchte ich noch verbessern oder üben?</label></li>
+          <li><input type="checkbox" id="sv5" onchange="toggleDone(this)"><label for="sv5">Habe ich offene Fragen an meinen PA?</label></li>
+          <li><input type="checkbox" id="sv6" onchange="toggleDone(this)"><label for="sv6">Ist mein Ausbildungsnachweis aktuell geführt?</label></li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="card-title">📝 Meine Notizen</div>
+        <div class="form-grid">
+          <div class="form-group form-full"><label class="form-label">Was ich bisher gelernt habe</label><textarea class="form-textarea" placeholder="Konkret aufschreiben was du gemacht und gelernt hast..."></textarea></div>
+          <div class="form-group form-full"><label class="form-label">Was ich noch verbessern möchte</label><textarea class="form-textarea"></textarea></div>
+          <div class="form-group form-full"><label class="form-label">Meine Fragen an den Praxisanleiter</label><textarea class="form-textarea"></textarea></div>
+        </div>
+        <div class="btn-row"><button class="btn btn-primary" onclick="window.print()">🖨️ Drucken</button></div>
+      </div>
+    </div>
+
+    <!-- ══ SELBSTEINSCHÄTZUNG ══ -->
+    <div class="view" id="view-selbsteinschaetzung">
+      <div class="ph">
+        <div class="ph-eye">Meine Ausbildung</div>
+        <div class="ph-title">Selbsteinschätzung</div>
+        <div class="ph-desc">Schätze dich selbst ein — in den fünf Kompetenzbereichen der Pflegeausbildung. 1 = noch am Anfang · 5 = sicher und selbständig.</div>
+      </div>
+      <div class="card"><div id="selbst-bew"></div></div>
+    </div>
+
+    <!-- ══ AUSBILDUNGSAUFBAU ══ -->
+    <div class="view" id="view-ausbildungsaufbau">
+      <div class="ph">
+        <div class="ph-eye">Meine Ausbildung</div>
+        <div class="ph-title">Ausbildungsaufbau</div>
+        <div class="ph-desc">Was dich in den drei Jahren erwartet — nach PflBG (generalistisch).</div>
+      </div>
+      <div class="card">
+        <div class="card-title">Pflichteinsätze PflBG</div>
+        <table class="tbl" style="margin-top:0.5rem;">
+          <thead><tr><th>Einsatz</th><th>Dauer</th><th>Ziel</th></tr></thead>
+          <tbody>
+            <tr><td>Orientierungseinsatz</td><td>400 Std.</td><td>Kennenlernen des Ausbildungsbetriebs</td></tr>
+            <tr><td>Stationäre Langzeitpflege</td><td>400 Std.</td><td>Grundlagen der Pflege älterer Menschen</td></tr>
+            <tr><td>Stationäre Akutpflege</td><td>400 Std.</td><td>Klinische Pflege, Medizin, Technik</td></tr>
+            <tr><td>Ambulante Pflege</td><td>400 Std.</td><td>Häusliche Versorgung, Selbständigkeit fördern</td></tr>
+            <tr><td>Pädiatrische Versorgung</td><td>120 Std.</td><td>Pflege von Kindern und Jugendlichen</td></tr>
+            <tr><td>Psychiatrische Versorgung</td><td>120 Std.</td><td>Umgang mit psychischen Erkrankungen</td></tr>
+            <tr><td>Vertiefungseinsatz</td><td>500 Std.</td><td>Schwerpunkt nach Wahl (3. Jahr)</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ══ RECHTE ══ -->
+    <div class="view" id="view-rechte">
+      <div class="ph">
+        <div class="ph-eye">Meine Ausbildung</div>
+        <div class="ph-title">Rechte & Pflichten</div>
+        <div class="ph-desc">Was dir als Auszubildende/r zusteht — und was von dir erwartet wird.</div>
+      </div>
+      <div class="card">
+        <div class="card-title" style="color:var(--green);">✅ Deine Rechte</div>
+        <ul class="checklist" style="margin-top:0.5rem;">
+          <li><span style="color:var(--green);width:14px;flex-shrink:0;">✓</span><label>Angemessene Ausbildungsvergütung nach TVAöD oder Tarifvertrag</label></li>
+          <li><span style="color:var(--green);width:14px;flex-shrink:0;">✓</span><label>Urlaub (mind. 24 Werktage pro Jahr)</label></li>
+          <li><span style="color:var(--green);width:14px;flex-shrink:0;">✓</span><label>Freistellung für Schulveranstaltungen</label></li>
+          <li><span style="color:var(--green);width:14px;flex-shrink:0;">✓</span><label>Praxisanleitung durch qualifizierte PA (mind. 10% der Praxiszeit)</label></li>
+          <li><span style="color:var(--green);width:14px;flex-shrink:0;">✓</span><label>Ausbildungsnachweis vom Betrieb gegengezeichnet</label></li>
+          <li><span style="color:var(--green);width:14px;flex-shrink:0;">✓</span><label>Keine Tätigkeiten die über dein Ausbildungsziel hinausgehen</label></li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="card-title">📋 Deine Pflichten</div>
+        <ul class="checklist" style="margin-top:0.5rem;">
+          <li><span style="width:14px;flex-shrink:0;color:var(--muted);">·</span><label>Sorgfältige Führung des Ausbildungsnachweises</label></li>
+          <li><span style="width:14px;flex-shrink:0;color:var(--muted);">·</span><label>Pünktlichkeit und Verlässlichkeit im Dienst</label></li>
+          <li><span style="width:14px;flex-shrink:0;color:var(--muted);">·</span><label>Einhaltung der Schweigepflicht (§203 StGB)</label></li>
+          <li><span style="width:14px;flex-shrink:0;color:var(--muted);">·</span><label>Teilnahme an Ausbildungsgesprächen</label></li>
+          <li><span style="width:14px;flex-shrink:0;color:var(--muted);">·</span><label>Anweisungen des Ausbilders befolgen</label></li>
+          <li><span style="width:14px;flex-shrink:0;color:var(--muted);">·</span><label>Korrekte Dokumentation der eigenen Tätigkeiten</label></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- ══ LEXIKON ══ -->
+    <div class="view" id="view-lexikon">
+      <div class="ph">
+        <div class="ph-eye">Nachschlagen</div>
+        <div class="ph-title">Fachbegriffe & Lexikon</div>
+        <div class="ph-desc">Alle wichtigen Pflegefachbegriffe — durchsuchbar, mit Maßnahmen und Prüfungstipps.</div>
+      </div>
+      <div class="search-wrap">
+        <span class="search-icon">🔍</span>
+        <input class="search-input" id="lex-search" placeholder="Begriff suchen... (z.B. Dekubitus, Demenz, Apoplex)" oninput="filterLex(this.value)">
+        <button class="search-clear" id="lex-clear" onclick="clearSearch()" style="display:none;">✕</button>
+      </div>
+      <div class="filter-row" id="lex-filters">
+        <button class="filter-btn active" onclick="setFilter('alle',this)">Alle</button>
+        <button class="filter-btn" onclick="setFilter('krankheitsbild',this)">Krankheitsbilder</button>
+        <button class="filter-btn" onclick="setFilter('pflege',this)">Pflegekonzepte</button>
+        <button class="filter-btn" onclick="setFilter('notfall',this)">Notfall</button>
+        <button class="filter-btn" onclick="setFilter('assessment',this)">Assessments</button>
+      </div>
+      <div class="search-count" id="lex-count"></div>
+      <div id="lex-list"></div>
+    </div>
+
+    <!-- ══ ASSESSMENTS ══ -->
+    <div class="view" id="view-assessments">
+      <div class="ph">
+        <div class="ph-eye">Nachschlagen</div>
+        <div class="ph-title">Assessments</div>
+        <div class="ph-desc">Die wichtigsten Assessments in der Pflege — mit Werten und Durchführung.</div>
+      </div>
+      <div id="assess-list"></div>
+    </div>
+
+    <!-- ══ ABKÜRZUNGEN ══ -->
+    <div class="view" id="view-abkuerzungen">
+      <div class="ph">
+        <div class="ph-eye">Nachschlagen</div>
+        <div class="ph-title">Abkürzungen</div>
+        <div class="ph-desc">Die häufigsten Abkürzungen in der Pflege und Ausbildung.</div>
+      </div>
+      <div class="search-wrap" style="margin-bottom:1rem;">
+        <span class="search-icon">🔍</span>
+        <input class="search-input" id="abk-search" placeholder="Abkürzung suchen... (z.B. SIS, NBA, BtMG)" oninput="filterAbk(this.value)">
+      </div>
+      <div class="card"><table class="tbl" id="abk-table">
+        <thead><tr><th>Abkürzung</th><th>Bedeutung</th><th>Kontext</th></tr></thead>
+        <tbody id="abk-body"></tbody>
+      </table></div>
+    </div>
+
+    <!-- ══ MEDIKAMENTE ══ -->
+    <div class="view" id="view-medikamente">
+      <div class="ph">
+        <div class="ph-eye">Nachschlagen</div>
+        <div class="ph-title">Medikamente & Wirkstoffe</div>
+        <div class="ph-desc">Die wichtigsten Wirkstoffgruppen — was Pflegepersonal wissen muss.</div>
+      </div>
+      <div class="search-wrap">
+        <span class="search-icon">🔍</span>
+        <input class="search-input" id="med-search" placeholder="Wirkstoff oder Gruppe suchen..." oninput="filterMed(this.value)">
+      </div>
+      <div id="med-list"></div>
+    </div>
+
+  </div><!-- /main -->
+</div><!-- /app -->
+
+<script>
+// ── API ──
+const API_URL = 'https://api.anthropic.com/v1/messages';
+
+const SYSTEM_PA = `Du bist ein erfahrener Praxisanleiter-Assistent für die Pflegeausbildung in Deutschland (PflBG 2020 und AltPflG). Du unterstützt Praxisanleiter bei:
+- Vorbereitung und Durchführung von Vor-, Zwischen- und Abschlussgesprächen
+- Formulierung von Lernzielen und Beurteilungen nach den 5 Kompetenzbereichen des PflBG
+- Konkreten Gesprächsfragen und Tipps für schwierige Situationen
+- Rechtlichen Grundlagen der Praxisanleitung
+
+Antworte immer konkret, praxisnah und auf Deutsch. Verwende Fachbegriffe aber erkläre sie kurz. Gib immer umsetzbare Empfehlungen. Formatiere Antworten übersichtlich mit kurzen Absätzen.`;
+
+const SYSTEM_SCHUELER = `Du bist ein freundlicher Lernassistent für Pflegeschüler in Deutschland (PflBG 2020 und AltPflG). Du hilfst bei:
+- Vorbereitung auf Vor-, Zwischen- und Abschlussgespräche
+- Erklärung von Fachbegriffen, Assessments und Pflegekonzepten
+- Fragen zur Pflegeausbildung und Rechten als Azubi
+- Prüfungsvorbereitung
+
+Antworte immer verständlich, motivierend und auf Augenhöhe. Erkläre Fachbegriffe einfach. Gib praktische Tipps. Antworte auf Deutsch.`;
+
+const chats = { pa: [], schueler: [] };
+
+async function sendMsg(mode) {
+  const input = document.getElementById('input-' + mode);
+  const msg = input.value.trim();
+  if (!msg) return;
+  input.value = '';
+  input.style.height = 'auto';
+  addMsg(mode, 'user', msg);
+  chats[mode].push({ role: 'user', content: msg });
+  const loadId = addLoading(mode);
+  try {
+    const res = await fetch(API_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-6',
+        max_tokens: 1000,
+        system: mode === 'pa' ? SYSTEM_PA : SYSTEM_SCHUELER,
+        messages: chats[mode]
+      })
+    });
+    const data = await res.json();
+    removeLoading(mode, loadId);
+    const reply = data.content?.[0]?.text || 'Fehler beim Laden der Antwort.';
+    addMsg(mode, 'ai', reply);
+    chats[mode].push({ role: 'assistant', content: reply });
+  } catch(e) {
+    removeLoading(mode, loadId);
+    addMsg(mode, 'ai', 'Verbindungsfehler. Bitte API-Key prüfen oder später erneut versuchen.');
+  }
+}
+
+function addMsg(mode, role, text) {
+  const msgs = document.getElementById('msgs-' + mode);
+  const div = document.createElement('div');
+  div.className = 'ki-msg';
+  const isAi = role === 'ai';
+  div.innerHTML = `<div class="ki-msg-avatar ${isAi?'ai':'user'}">${isAi?'🤖':'👤'}</div><div class="ki-msg-bubble ${isAi?'ai-bubble':'user-bubble'}">${text.replace(/\n/g,'<br>')}</div>`;
+  msgs.appendChild(div);
+  msgs.scrollTop = msgs.scrollHeight;
+}
+
+function addLoading(mode) {
+  const msgs = document.getElementById('msgs-' + mode);
+  const id = 'load-' + Date.now();
+  const div = document.createElement('div');
+  div.className = 'ki-msg';
+  div.id = id;
+  div.innerHTML = `<div class="ki-msg-avatar ai">🤖</div><div class="ki-msg-bubble ai-bubble"><div class="ki-loading"><div class="ki-dot"></div><div class="ki-dot"></div><div class="ki-dot"></div></div></div>`;
+  msgs.appendChild(div);
+  msgs.scrollTop = msgs.scrollHeight;
+  return id;
+}
+
+function removeLoading(mode, id) {
+  const el = document.getElementById(id);
+  if (el) el.remove();
+}
+
+function sendChip(el, mode) {
+  const input = document.getElementById('input-' + mode);
+  input.value = el.textContent;
+  sendMsg(mode);
+}
+
+function handleKey(e, mode) {
+  if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMsg(mode); }
+}
+
+// ── NAVIGATION ──
+function setMode(mode, btn) {
+  document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('nav-pa').style.display = mode === 'pa' ? 'block' : 'none';
+  document.getElementById('nav-schueler').style.display = mode === 'schueler' ? 'block' : 'none';
+  showView(mode === 'pa' ? 'ki-pa' : 'ki-schueler', document.querySelector(mode === 'pa' ? '#nav-pa .nav-item' : '#nav-schueler .nav-item'));
+}
+
+function showView(id, el) {
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+  const v = document.getElementById('view-' + id);
+  if (v) v.classList.add('active');
+  if (el) el.classList.add('active');
+  document.getElementById('main-content').scrollTop = 0;
+}
+
+function toggleDone(input) {
+  input.closest('li').classList.toggle('done', input.checked);
+}
+
+function clearForm(btn) {
+  if (!confirm('Formular wirklich leeren?')) return;
+  btn.closest('.card').querySelectorAll('input,textarea').forEach(el => { if(el.type!=='button') el.value=''; });
+}
+
+// ── BEWERTUNGSBOGEN ──
+const bewData = {
+  'bew-I': ['Grundpflege (Körperpflege, Lagerung, Mobilisation)','Behandlungspflege (Medikamente, Verbände)','Pflegeplanung und Dokumentation','Prophylaxen (Dekubitus, Sturz, Kontraktur, Pneumonie)','Hygiene und Infektionsschutz'],
+  'bew-II': ['Kommunikation mit Bewohnern/Patienten','Umgang mit Angehörigen','Teamkommunikation und Übergabe','Beratungsgespräche führen'],
+  'bew-III': ['Kooperation im Pflegeteam','Zusammenarbeit mit anderen Berufsgruppen','Aufgaben delegieren und annehmen','An Fallbesprechungen mitwirken'],
+  'bew-IV': ['Zuverlässigkeit und Pünktlichkeit','Belastbarkeit und Stressbewältigung','Selbstreflexion und Kritikfähigkeit','Motivation und Eigeninitiative','Umgang mit ethischen Herausforderungen']
+};
+
+Object.entries(bewData).forEach(([id, items]) => {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.innerHTML = items.map((item,i) => `
+    <div class="bew-item">
+      <div class="bew-label">${item}</div>
+      <div class="bew-skala" id="${id}-${i}">
+        ${[1,2,3,4,5].map(n=>`<button class="bew-btn" onclick="selBew(this,'${id}-${i}',${n})">${n}</button>`).join('')}
+      </div>
+      <div class="bew-desc"><span>nicht erfüllt</span><span>sehr gut erfüllt</span></div>
+    </div>`).join('');
+});
+
+// Selbsteinschätzung Schüler
+const selbstEl = document.getElementById('selbst-bew');
+if (selbstEl) {
+  ['Pflegefachliche Kompetenz','Kommunikation & Beratung','Teamarbeit & Interprofessionalität','Rechtliches & Ethisches Handeln','Selbstreflexion & Eigenverantwortung'].forEach((item,i) => {
+    selbstEl.innerHTML += `
+      <div class="bew-item">
+        <div class="bew-label" style="font-weight:600;color:var(--text);">${item}</div>
+        <div class="bew-skala" id="sb-${i}">
+          ${[1,2,3,4,5].map(n=>`<button class="bew-btn" onclick="selBew(this,'sb-${i}',${n})">${n}</button>`).join('')}
+        </div>
+        <div class="bew-desc"><span>noch am Anfang</span><span>sicher & selbständig</span></div>
+      </div>`;
+  });
+}
+
+function selBew(btn, groupId, val) {
+  document.querySelectorAll(`#${groupId} .bew-btn`).forEach(b => b.className = 'bew-btn');
+  btn.classList.add(`s${val}`);
+}
+
+// ── LEXIKON DATEN ──
+const lexData = [
+  {b:'Dekubitus',kat:'krankheitsbild',d:'Druckgeschwür durch anhaltenden Druck auf die Haut — Gewebeschädigung durch Minderdurchblutung.',s:'Grad I: Rötung (nicht wegdrückbar) · Grad II: Blasen/oberflächlicher Defekt · Grad III: tiefer Gewebsdefekt · Grad IV: bis Knochen/Sehnen',m:'Druckentlastung, Lagerung alle 2h, Spezialmatratze, Hautpflege, Braden-Skala',t:'Stadien I–IV auswendig lernen! Braden ≤18 = Risiko'},
+  {b:'Kontraktur',kat:'krankheitsbild',d:'Dauerhafte Verkürzung von Muskeln, Sehnen oder Gelenkkapseln mit Bewegungseinschränkung.',s:'',m:'Passive Bewegungsübungen, Lagerungsschienen, frühe Mobilisation, Physiotherapie, Kinästhetik',t:'Prophylaxe: täglich passive Bewegungsübungen — auch bei bettlägerigen Patienten'},
+  {b:'Dysphagie',kat:'krankheitsbild',d:'Schluckstörung — Schwierigkeiten beim Schlucken von fester oder flüssiger Nahrung.',s:'',m:'Angedickete Flüssigkeiten (Andickungsmittel), aufrechte Sitzposition 90°, langsames Essen, Logopädie, weiche Kost',t:'Aspirationsgefahr! Häufige Folge nach Apoplex'},
+  {b:'Aspiration',kat:'notfall',d:'Eindringen von Fremdkörpern (Speisen, Flüssigkeiten, Erbrochenem) in die Atemwege.',s:'',m:'Sofortmaßnahme: aufrechte Position, Rücken klopfen, Arzt rufen sofort, Dokumentation',t:'Risiko bei Dysphagie, Bewusstlosigkeit, nach Schlaganfall, bei Demenz'},
+  {b:'Aspirationspneumonie',kat:'krankheitsbild',d:'Lungenentzündung durch Einatmen von Fremdmaterial (Speisereste, Magensaft) in die Lunge.',s:'',m:'Prophylaxe: Oberkörperhochlagerung 30°, regelmäßige Mundpflege, Schlucktraining, richtige Kostform',t:'Häufige tödliche Komplikation bei Schluckstörungen — Prophylaxe ist entscheidend'},
+  {b:'Pneumonie',kat:'krankheitsbild',d:'Lungenentzündung — Entzündung des Lungengewebes durch Bakterien, Viren oder Pilze.',s:'',m:'Prophylaxe: Atemübungen (Atemtrainer), frühe Mobilisation, Oberkörperhochlagerung, Inhalation, Abhusten fördern',t:'Pneumonieprophylaxe ist Pflichtthema — Ursachen: Bettlägerigkeit, Aspiration, Immunschwäche'},
+  {b:'Thrombose',kat:'krankheitsbild',d:'Blutgerinnsel (Thrombus) in einem Blutgefäß — häufig als tiefe Beinvenenthrombose.',s:'',m:'Prophylaxe: Kompressionsstrümpfe, Wadenmuskelübungen, Antikoagulation, frühe Mobilisation, viel trinken',t:'Komplikation: Lungenembolie! Zeichen: geschwollenes, warmes, rotes Bein, Schmerzen'},
+  {b:'Embolie',kat:'notfall',d:'Verschluss eines Blutgefäßes durch einen eingeschwemmten Thrombus — häufig Lungenembolie.',s:'',m:'Notfall! Sofort Arzt rufen. Lagerung: Oberkörper hoch. Reanimation bereit halten.',t:'Lungenembolie: lebensbedrohlich! Zeichen: plötzliche Atemnot, Brustschmerz, Angst'},
+  {b:'Delir',kat:'krankheitsbild',d:'Akuter Verwirrtheitszustand mit Bewusstseinsstörung, Desorientierung, oft reversibel.',s:'Hyperaktiv (unruhig, aggressiv) · Hypoaktiv (schläfrig, apathisch) · Gemischt',m:'Orientierung geben, vertraute Gegenstände und Bezugspersonen, ruhige Umgebung, Ursache behandeln, Reize reduzieren',t:'Delir ist AKUT und REVERSIBEL — Unterschied zur Demenz merken! Häufig nach OPs bei älteren Menschen'},
+  {b:'Demenz',kat:'krankheitsbild',d:'Chronisch fortschreitender Abbau von Gedächtnis, Denken, Orientierung und Alltagskompetenz.',s:'Leicht (vergesslich, noch selbständig) · Mittel (braucht Hilfe) · Schwer (vollständig abhängig)',m:'Validation nach Feil, Biographiearbeit, strukturierter Tagesablauf, Sicherheit, Orientierungshilfen',t:'Validation nach Feil kennen — nicht korrigieren, Gefühle bestätigen. 10-Minuten-Aktivierung'},
+  {b:'Apoplex',kat:'notfall',d:'Schlaganfall — plötzliche Durchblutungsstörung des Gehirns durch Verschluss oder Blutung.',s:'',m:'Notfall! FAST-Schema anwenden, Notarzt rufen (112), Patienten ruhig lagern, nichts essen/trinken geben',t:'FAST: Face (hängendes Gesicht?) Arms (ein Arm fällt?) Speech (undeutliche Sprache?) Time (sofort 112 rufen!) — Auswendiglernen!'},
+  {b:'Hemiparese',kat:'krankheitsbild',d:'Halbseitige Lähmung (einseitige Schwäche) nach Schlaganfall oder Hirnschädigung.',s:'',m:'Physiotherapie, Kinästhetik, Lagerung auf betroffene Seite, transfers von betroffener Seite ansprechen',t:'Immer von der BETROFFENEN Seite ansprechen, zusteigen und Kontakt halten — fördert Wahrnehmung'},
+  {b:'Herzinsuffizienz',kat:'krankheitsbild',d:'Herzschwäche — das Herz kann nicht genug Blut pumpen um den Körper ausreichend zu versorgen.',s:'NYHA I (beschwerdefrei) · NYHA II (bei starker Belastung) · NYHA III (bei leichter Belastung) · NYHA IV (in Ruhe)',m:'Flüssigkeitsbilanz führen, tägliche Gewichtskontrolle, Oberkörperhochlagerung, Ödeme beobachten',t:'NYHA-Stadien I–IV auswendig! Gewichtszunahme >2kg in 3 Tagen → Arzt informieren'},
+  {b:'Diabetes mellitus',kat:'krankheitsbild',d:'Zuckerkrankheit — erhöhter Blutzucker durch Insulinmangel (Typ 1) oder Insulinresistenz (Typ 2).',s:'Typ 1: Insulinmangel, autoimmun · Typ 2: Insulinresistenz, häufiger',m:'BZ-Kontrolle, spezielle Fußpflege, Diät, Insulin oder orale Antidiabetika, Schulung',t:'Hypoglykämie-Zeichen MERKEN: Schwitzen, Zittern, Blässe, Bewusstlosigkeit → sofort Zucker! Notfall!'},
+  {b:'Palliativpflege',kat:'pflege',d:'Fürsorgende Begleitung unheilbar kranker Menschen mit Fokus auf Lebensqualität statt Heilung.',s:'',m:'Schmerzmanagement (WHO-Stufenschema), Symptomkontrolle, psychosoziale und spirituelle Begleitung, Angehörigenarbeit',t:'Grundsatz: Nicht das Leben verlängern, sondern die Lebensqualität verbessern — WHO-Stufenschema kennen'},
+  {b:'Basale Stimulation',kat:'pflege',d:'Pflegekonzept nach Prof. Fröhlich — Wahrnehmungsförderung durch gezielte sensorische Reize.',s:'',m:'Somatische, vestibuläre, vibratorische, orale, auditive, visuelle, taktil-haptische Stimulation',t:'Wichtig bei bewusstseinseingeschränkten Patienten — Berührungsrichtung: beim Waschen von peripher nach zentral'},
+  {b:'Kinästhetik',kat:'pflege',d:'Bewegungskonzept — nutzt natürliche Körperbewegungen für schonende Mobilisation.',s:'',m:'Zug statt Druck, Gewichtsübernahme nutzen, Eigenbewegung aktivieren, Spiralbewegungen',t:'Schont Pflegeperson UND Pflegebedürftigen — Rückenschutz! Zug statt Druck ist das Hauptprinzip'},
+  {b:'Validation',kat:'pflege',d:'Kommunikationskonzept nach Naomi Feil — Gefühle demenzkranker Menschen bestätigen statt korrigieren.',s:'',m:'Empathisch zuhören, Gefühle spiegeln, nicht in Realität zwingen, Körpersprache spiegeln',t:'GEGENTEIL: Realitätsorientierung — bei Demenz meist kontraproduktiv und belastend'},
+  {b:'SIS',kat:'assessment',d:'Strukturierte Informationssammlung — Basis der modernen Pflegedokumentation, ersetzt klassische Pflegeanamnese.',s:'',m:'6 Themenfelder: Kognition/Kommunikation, Mobilität, Krankheitsbewältigung, Selbstversorgung, Wohnen/Häuslichkeit, Soziales',t:'SIS ist seit 2017 Pflichtstandard in der stationären Pflege — Themenfelder kennen!'},
+  {b:'Braden-Skala',kat:'assessment',d:'Standardisiertes Assessment zur Einschätzung des Dekubitusrisikos.',s:'6 Bereiche: Wahrnehmung, Feuchtigkeit, Aktivität, Mobilität, Ernährung, Reibung/Scherkräfte',m:'Bei Aufnahme, dann wöchentlich oder bei Zustandsänderung durchführen',t:'Werte: Max. 23 Punkte. ≤18 = Risiko, ≤12 = hohes Risiko → Maßnahmen einleiten!'},
+];
+
+let currentFilter = 'alle';
+let currentSearch = '';
+
+function renderLex() {
+  const list = document.getElementById('lex-list');
+  const count = document.getElementById('lex-count');
+  if (!list) return;
+  let data = lexData;
+  if (currentFilter !== 'alle') data = data.filter(d => d.kat === currentFilter);
+  if (currentSearch) data = data.filter(d => d.b.toLowerCase().includes(currentSearch) || d.d.toLowerCase().includes(currentSearch) || d.m.toLowerCase().includes(currentSearch));
+  count.textContent = `${data.length} Begriff${data.length !== 1 ? 'e' : ''} gefunden`;
+  if (!data.length) { list.innerHTML = '<div class="no-results">🔍 Keine Ergebnisse — anderen Suchbegriff versuchen</div>'; return; }
+  list.innerHTML = data.map(d => `
+    <div class="lex-item">
+      <div class="lex-header" onclick="this.parentElement.classList.toggle('open')">
+        <div class="lex-title"><span class="tag tag-${d.kat==='notfall'?'red':d.kat==='pflege'?'green':d.kat==='assessment'?'purple':'blue'}">${d.kat}</span> ${d.b}</div>
+        <span style="color:var(--dim);font-size:0.65rem;">▼</span>
+      </div>
+      <div class="lex-body">
+        <div class="lex-def">${d.d}</div>
+        ${d.s ? `<div class="lex-row"><div class="lex-field"><div class="lex-field-label">Stadien / Typen</div><div class="lex-field-val">${d.s}</div></div></div>` : ''}
+        <div class="lex-row">
+          <div class="lex-field" style="grid-column:1/-1;"><div class="lex-field-label">Maßnahmen / Prophylaxe</div><div class="lex-field-val">${d.m}</div></div>
+        </div>
+        ${d.t ? `<div class="lex-tip"><div class="lex-tip-label">💡 Prüfungstipp</div><div class="lex-tip-val">${d.t}</div></div>` : ''}
+      </div>
+    </div>`).join('');
+}
+
+function filterLex(val) {
+  currentSearch = val.toLowerCase();
+  document.getElementById('lex-clear').style.display = val ? 'block' : 'none';
+  renderLex();
+}
+
+function clearSearch() {
+  document.getElementById('lex-search').value = '';
+  currentSearch = '';
+  document.getElementById('lex-clear').style.display = 'none';
+  renderLex();
+}
+
+function setFilter(f, btn) {
+  currentFilter = f;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderLex();
+}
+
+// ── ASSESSMENTS ──
+const assessData = [
+  {n:'Braden-Skala',z:'Dekubitusrisiko einschätzen',b:'Wahrnehmung · Feuchtigkeit · Aktivität · Mobilität · Ernährung · Reibung/Scherkräfte',w:'Max. 23 Pkt · ≤18 = Risiko · ≤12 = hohes Risiko',r:'Bei Aufnahme, wöchentlich, bei Zustandsänderung'},
+  {n:'BESD',z:'Schmerz bei Demenz einschätzen',b:'Atmung · Lautäußerung · Gesichtsausdruck · Körpersprache · Trost',w:'0–10 Pkt · ≥2 = Schmerz behandeln',r:'Beobachtung über 5 Minuten in Ruhe und bei Bewegung'},
+  {n:'NRS (Numerische Rating-Skala)',z:'Schmerzeinschätzung bei kommunikativen Patienten',b:'Patient nennt Zahl von 0–10',w:'0 = kein Schmerz · 10 = stärkster vorstellbarer Schmerz',r:'Vor und nach Schmerztherapie'},
+  {n:'MNA (Mini Nutritional Assessment)',z:'Mangelernährung erkennen',b:'BMI · Gewichtsverlust · Mobilität · akute Erkrankung · neuropsychologische Probleme · Mahlzeiten',w:'≥24 = normal · 17–23,5 = Risiko · <17 = Mangelernährung',r:'Bei Aufnahme, vierteljährlich'},
+  {n:'Barthel-Index',z:'Selbständigkeit in ADL messen',b:'10 Bereiche: Essen · Aufsetzen · Transfer · Toilette · Baden · Gehen · Treppe · An/Ausziehen · Stuhlkontinenz · Urinkontinenz',w:'0–100 Pkt · 100 = selbständig · 0 = vollständig abhängig',r:'Bei Aufnahme, Entlassung, bei Zustandsänderung'},
+  {n:'MMSE',z:'Kognition testen / Demenz-Screening',b:'Orientierung · Merkfähigkeit · Aufmerksamkeit · Sprache · Visuokonstruktion',w:'0–30 Pkt · 27–30 = normal · 20–26 = leicht · 10–19 = mittel · <10 = schwer',r:'Bei Verdacht, jährlich bei bekannter Demenz'},
+  {n:'Tinetti-Test',z:'Sturzrisiko einschätzen',b:'Gleichgewichtstest (16 Pkt) + Ganganalyse (12 Pkt)',w:'<19 = hohes Risiko · 19–24 = mittleres Risiko · 25–28 = niedriges Risiko',r:'Bei Aufnahme, nach Sturz, bei Zustandsänderung'},
+  {n:'GDS (Geriatrische Depressionsskala)',z:'Depression bei älteren Menschen screenen',b:'15 Ja/Nein-Fragen zu Stimmung, Aktivität, Hoffnung',w:'0–5 = normal · 6–10 = leichte Depression · 11–15 = schwere Depression',r:'Bei Aufnahme, bei Verhaltensänderungen'},
+];
+
+function renderAssessments() {
+  const el = document.getElementById('assess-list');
+  if (!el) return;
+  el.innerHTML = assessData.map(a => `
+    <div class="card" style="margin-bottom:0.75rem;">
+      <div class="card-title">📊 ${a.n}</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;">
+        <div><div class="form-label" style="margin-bottom:0.25rem;">Zweck</div><div style="font-size:0.78rem;color:var(--muted);">${a.z}</div></div>
+        <div><div class="form-label" style="margin-bottom:0.25rem;">Rhythmus</div><div style="font-size:0.78rem;color:var(--muted);">${a.r}</div></div>
+        <div><div class="form-label" style="margin-bottom:0.25rem;">Bereiche</div><div style="font-size:0.78rem;color:var(--muted);">${a.b}</div></div>
+        <div><div class="form-label" style="margin-bottom:0.25rem;">Werte</div><div style="font-size:0.78rem;color:var(--accent);">${a.w}</div></div>
+      </div>
+    </div>`).join('');
+}
+
+// ── ABKÜRZUNGEN ──
+const abkData = [
+  ['SIS','Strukturierte Informationssammlung','Pflegedokumentation'],['NBA','Neues Begutachtungsassessment','Einstufung Pflegegrade 1–5'],
+  ['PflBG','Pflegeberufegesetz','Rechtsgrundlage Ausbildung ab 2020'],['PflAPrV','Pflegeberufe-Ausbildungs- und Prüfungsverordnung','Prüfungen und Einsätze'],
+  ['AltPflG','Altenpflegegesetz','Gilt für Ausbildungen vor 2020'],['BBiG','Berufsbildungsgesetz','Rechte/Pflichten Ausbildung'],
+  ['SGB XI','Sozialgesetzbuch 11 — Pflegeversicherung','Leistungen Pflegekassen'],['SGB V','Sozialgesetzbuch 5 — Krankenversicherung','Leistungen Krankenkassen'],
+  ['MDK','Medizinischer Dienst','Begutachtung, Qualitätsprüfung'],['BtMG','Betäubungsmittelgesetz','Morphin, Fentanyl etc.'],
+  ['IfSG','Infektionsschutzgesetz','Meldepflichten, Hygiene'],['DSGVO','Datenschutz-Grundverordnung','Schutz Patientendaten'],
+  ['HKP','Häusliche Krankenpflege','Behandlungspflege ambulant SGB V'],['QM','Qualitätsmanagement','Qualitätssicherung Einrichtungen'],
+  ['BESD','Beurteilung von Schmerzen bei Demenz','Schmerzassessment Demenz'],['NRS','Numerische Rating-Skala','Schmerzeinschätzung 0–10'],
+  ['MMSE','Mini Mental State Examination','Kognitionstest Demenz'],['MNA','Mini Nutritional Assessment','Ernährungsscreening'],
+  ['ADL','Activities of Daily Living','Aktivitäten des täglichen Lebens'],['ABEDL','Aktivitäten und existenzielle Erfahrungen','Pflegemodell Krohwinkel'],
+  ['COPD','Chronic Obstructive Pulmonary Disease','Chronische Lungenerkrankung'],['KHK','Koronare Herzkrankheit','Herzgefäßerkrankung'],
+  ['RR','Blutdruck (Riva-Rocci)','Vitalzeichen'],['HF','Herzfrequenz','Vitalzeichen, Puls'],
+  ['SpO2','Sauerstoffsättigung','Pulsoximetrie'],['BZ','Blutzucker','Vitalzeichen bei Diabetes'],
+  ['AÜP','Aktivierende-unterstützende Pflege','Grundprinzip der Altenpflege'],['VKP','Verhinderungspflege','Vertretung pflegender Angehöriger'],
+  ['KZP','Kurzzeitpflege','Vorübergehende stationäre Aufnahme'],['ATP','Außerplanmäßige Tätigkeiten/Ereignisse','Dokumentationspflicht'],
+  ['JArbSchG','Jugendarbeitsschutzgesetz','Schutz Azubis unter 18 Jahren'],['TVAöD','Tarifvertrag Auszubildende öffentlicher Dienst','Vergütung Azubis'],
+];
+
+function renderAbk(filter) {
+  const tbody = document.getElementById('abk-body');
+  if (!tbody) return;
+  const data = filter ? abkData.filter(r => r[0].toLowerCase().includes(filter.toLowerCase()) || r[1].toLowerCase().includes(filter.toLowerCase())) : abkData;
+  tbody.innerHTML = data.map(r => `<tr><td>${r[0]}</td><td>${r[1]}</td><td>${r[2]}</td></tr>`).join('');
+}
+function filterAbk(val) { renderAbk(val); }
+
+// ── MEDIKAMENTE ──
+const medData = [
+  {g:'Digitalis (Herzglykoside)',b:'Digoxin, Digitoxin',e:'Herzinsuffizienz, Vorhofflimmern',nw:'Übelkeit, Sehstörungen (gelb-grün), Herzrhythmusstörungen — enge therapeutische Breite!',p:'⚠️ Puls vor Gabe messen! Bei <60/min NICHT geben. Arzt informieren.'},
+  {g:'Diuretika (Entwässerungsmittel)',b:'Furosemid (Lasix), Torasemid, Spironolacton',e:'Herzinsuffizienz, Ödeme, Hypertonie',nw:'Kaliumverlust, Dehydration, Kreislaufprobleme, Schwindel',p:'Flüssigkeitsbilanz führen, täglich wiegen, Elektrolyte kontrollieren, Sturzgefahr!'},
+  {g:'ACE-Hemmer',b:'Ramipril, Lisinopril, Enalapril',e:'Herzinsuffizienz, Hypertonie, Diabetes',nw:'Trockener Husten (häufig!), Blutdruckabfall, Kaliumerhöhung',p:'Blutdruck kontrollieren, auf Husten achten, Nierenfunktion überwachen'},
+  {g:'Betablocker',b:'Metoprolol, Bisoprolol, Carvedilol',e:'Herzinsuffizienz, Hypertonie, Herzrhythmusstörungen',nw:'Bradykardie, Müdigkeit, Kältegefühl Hände/Füße',p:'⚠️ Nie abrupt absetzen! Puls und Blutdruck messen'},
+  {g:'Antikoagulantien (Blutverdünner)',b:'Heparin s.c., Marcumar, Xarelto, Eliquis',e:'Thromboseprophylaxe, Vorhofflimmern, Lungenembolie',nw:'Erhöhtes Blutungsrisiko',p:'Auf Blutungszeichen achten (blaue Flecken, Blut im Urin). Bei Marcumar: INR-Wert beachten'},
+  {g:'Analgetika (Schmerzmedikamente)',b:'Paracetamol, Ibuprofen, Tramadol, Morphin, Fentanyl-Pflaster',e:'Schmerztherapie nach WHO-Stufenschema (3 Stufen)',nw:'Morphin: Übelkeit, Obstipation, Atemdepression. Ibuprofen: Magenprobleme',p:'⚠️ Morphin unterliegt BtMG — besondere Dokumentation! Obstipationsprophylaxe bei Opioiden'},
+  {g:'Antidepressiva',b:'Sertralin, Citalopram (SSRI), Amitriptylin (TZA)',e:'Depression, Angststörungen, Schlafstörungen, neuropathischer Schmerz',nw:'SSRI: Übelkeit, Unruhe. TZA: Mundtrockenheit, Schwindel, Sturzgefahr!',p:'Wirkung beginnt erst nach 2–4 Wochen! Nie abrupt absetzen. TZA = hohes Sturzrisiko'},
+  {g:'Neuroleptika (Antipsychotika)',b:'Haloperidol, Risperidon, Quetiapin',e:'Psychosen, Delir, schwere Verhaltenssymptome bei Demenz',nw:'EPS (Bewegungsstörungen), Sedierung, Sturzgefahr, Schluckstörungen',p:'⚠️ Sturz- und Aspirationsgefahr! Sorgfältige Beobachtung Beweglichkeit und Schlucken'},
+  {g:'Insulin',b:'Normalinsulin, NPH-Insulin, Lantus (Basalinsulin), Novorapid (Bolusinsulin)',e:'Diabetes mellitus Typ 1 und Typ 2',nw:'Hypoglykämie (Unterzuckerung) — häufigste und gefährlichste NW',p:'⚠️ BZ vor Gabe messen! Hypoglykämie-Zeichen: Schwitzen, Zittern, Bewusstlosigkeit → Notfall!'},
+  {g:'Antibiotika',b:'Amoxicillin, Ciprofloxacin, Cotrimoxazol, Metronidazol',e:'Bakterielle Infektionen (HWI, Pneumonie, Wundinfektionen)',nw:'Durchfall, Pilzinfektionen, allergische Reaktionen, Resistenzentwicklung',p:'Vollständige Einnahme sicherstellen! Clostridien-Risiko bei älteren Patienten beachten'},
+  {g:'Antiepileptika',b:'Levetiracetam, Valproat, Carbamazepin, Phenytoin, Lamotrigin',e:'Epilepsie, neuralgische Schmerzen',nw:'Schwindel, Müdigkeit, Stimmungsschwankungen, Leberwerterhöhung',p:'⚠️ Nie abrupt absetzen! Anfallsbeobachtung und -dokumentation. Sturzgefahr'},
+  {g:'Protonenpumpeninhibitoren (Magenschutz)',b:'Omeprazol, Pantoprazol, Esomeprazol',e:'Magenschutz bei NSAID-Therapie, Reflux, Magengeschwür',nw:'Langzeitrisiko: Magnesiummangel, Vitamin B12-Mangel, erhöhtes Infektionsrisiko',p:'Häufig als Begleitmedikation bei Schmerztherapie. Nüchtern einnehmen, 30 Min vor dem Essen'},
+];
+
+function renderMed(filter) {
+  const el = document.getElementById('med-list');
+  if (!el) return;
+  const data = filter ? medData.filter(m => m.g.toLowerCase().includes(filter.toLowerCase()) || m.b.toLowerCase().includes(filter.toLowerCase())) : medData;
+  el.innerHTML = data.map(m => `
+    <div class="card" style="margin-bottom:0.75rem;">
+      <div class="card-title">💊 ${m.g}</div>
+      <div style="font-size:0.7rem;color:var(--accent);margin-bottom:0.75rem;font-weight:500;">Beispiele: ${m.b}</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.7rem;">
+        <div><div class="form-label" style="margin-bottom:0.2rem;">Einsatz</div><div style="font-size:0.77rem;color:var(--muted);">${m.e}</div></div>
+        <div><div class="form-label" style="margin-bottom:0.2rem;color:var(--red);">Nebenwirkungen</div><div style="font-size:0.77rem;color:var(--muted);">${m.nw}</div></div>
+        <div style="grid-column:1/-1;background:var(--amber-dim);border-radius:6px;padding:0.5rem 0.75rem;"><div class="form-label" style="margin-bottom:0.2rem;color:var(--amber);">⚠️ Pflegehinweis</div><div style="font-size:0.77rem;color:var(--muted);">${m.p}</div></div>
+      </div>
+    </div>`).join('') || '<div class="no-results">Keine Ergebnisse</div>';
+}
+function filterMed(val) { renderMed(val); }
+
+// ── INIT ──
+document.addEventListener('DOMContentLoaded', () => {
+  renderLex();
+  renderAssessments();
+  renderAbk();
+  renderMed();
+});
+</script>
 </body>
 </html>
